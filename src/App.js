@@ -1,9 +1,25 @@
+import {useEffect} from 'react'
+import { Route, Routes } from "react-router";
+import { SignUp,Home} from "./pages";
+import { useNavigate } from 'react-router';
+
 
 const App=()=> {
+  const navigate = useNavigate()
+  useEffect(()=>{
+    const userData = JSON.parse(localStorage.getItem("login"))
+    if(userData.isUserLoggedIn){
+      navigate("/")
+    }
+   
+  },[])
   return (
-    <div className="App text-red-500 h-screen w-full flex flex-col  items-center justify-center">
-      <h1 className='text-5xl'>App is Under Development...<i className='fa fa-cog fa-spin fa-4x'></i></h1>
-      <span>Kindly Check The Development Branch!!!</span>
+    <div className="App">
+      <Routes>
+      <Route path="/" element={<Home/>} />
+      <Route path="/signup" element={<SignUp/>} />
+      </Routes>
+     
     </div>
   );
 }
