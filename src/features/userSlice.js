@@ -6,6 +6,8 @@ import {
 import { baseURL } from "../utility/baseURL";
 import axios from "axios"
 
+let userData =JSON.parse(localStorage.getItem("login"))
+const _id= userData._id 
 
 export const signUpUserAsync = createAsyncThunk(
     "user/signup",
@@ -17,7 +19,7 @@ export const signUpUserAsync = createAsyncThunk(
               username,
               email,
               password,
-              bio: "Hi there! I'm using Formula Circuit",
+              bio: "Hi there! I'm using Loop",
               profileURL:
               "https://res.cloudinary.com/xdev200/image/upload/v1625360304/userprofile_xrldwm.png",
               followingList: [],
@@ -25,9 +27,10 @@ export const signUpUserAsync = createAsyncThunk(
             },
           });
           if (res.data.success) {
+            console.log(res.data)
             localStorage.setItem(
               "login",
-              JSON.stringify({ token: res.data.user.token, isUserLoggedIn: true })
+              JSON.stringify({ token: res.data.user.token, isUserLoggedIn: true,_id:res.data.user._id })
             );
             axios.defaults.headers.common["Authorization"] = res.data.user.token;
             
@@ -48,7 +51,7 @@ export const signInUserAsync = createAsyncThunk(
       if (res.data.success) {
         localStorage.setItem(
           "login",
-          JSON.stringify({ token: res.data.user.token, isUserLoggedIn: true })
+          JSON.stringify({ token: res.data.user.token, isUserLoggedIn: true,_id:res.data.user._id })
         );
         axios.defaults.headers.common["Authorization"] = res.data.user.token;
       }
@@ -57,6 +60,30 @@ export const signInUserAsync = createAsyncThunk(
     } catch (error) {
       console.log("ERROR MESSAGE: ", error.message);
       return Promise.reject(error.message);
+    }
+  }
+);
+
+export const updateUserImageAsync = createAsyncThunk(
+  "user/updateProfileImage",
+  async ({ profileURL }) => {
+    try {
+      const res = await axios.post(`${baseURL}/users/updateImage`, { profileURL, _id });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
+export const updateUserBioAsync = createAsyncThunk(
+  "user/updateProfileBio",
+  async ({ bio}) => {
+    try {
+      const res = await axios.post(`${baseURL}/users/updateBio`, { bio, _id});
+      return res.data;
+    } catch (error) {
+      console.error(error);
     }
   }
 );
