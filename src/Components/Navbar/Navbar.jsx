@@ -1,5 +1,8 @@
 
+import { UserMenu } from ".."
+import { useState } from "react"
 export const Navbar = () => {
+    const[showMenu,setShowMenu] = useState(false)
     return (
         <div className='flex item-center justify-between shadow-lg p-2'>
             <div className='flex flex-col items-center justify-center'>
@@ -7,8 +10,12 @@ export const Navbar = () => {
                 <span>LOOP</span>
             </div>
             <div className='flex flex-col items-center justify-center'>
-            <i className="fas fa-user-circle fa-4x"></i>
+                <div>
+                <i className="fas fa-user-circle fa-4x" onClick={()=>{setShowMenu(!showMenu)}}></i>
+                <UserMenu showMenu={showMenu}/>
+                </div>
             </div>
+           
         </div>
     )
 }

@@ -30,6 +30,7 @@ export const signUpUserAsync = createAsyncThunk(
               JSON.stringify({ token: res.data.user.token, isUserLoggedIn: true })
             );
             axios.defaults.headers.common["Authorization"] = res.data.user.token;
+            
           }
           return res.data;
         } catch (error) {
@@ -38,6 +39,27 @@ export const signUpUserAsync = createAsyncThunk(
         }
       }
 )
+
+export const signInUserAsync = createAsyncThunk(
+  "user/login",
+  async ({ email, password }) => {
+    try {
+      const res = await axios.post(`${baseURL}/users/login`, { email, password });
+      if (res.data.success) {
+        localStorage.setItem(
+          "login",
+          JSON.stringify({ token: res.data.user.token, isUserLoggedIn: true })
+        );
+        axios.defaults.headers.common["Authorization"] = res.data.user.token;
+      }
+      console.log(res.data)
+      return res.data;
+    } catch (error) {
+      console.log("ERROR MESSAGE: ", error.message);
+      return Promise.reject(error.message);
+    }
+  }
+);
 
 export const userSlice = createSlice({
     name:"user",

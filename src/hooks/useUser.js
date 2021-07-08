@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getError,signUpUserAsync } from "../features/userSlice";
+import { getError,signUpUserAsync, signInUserAsync } from "../features/userSlice";
 
-export const useSignUp = () => {
+export const useUser = () => {
   const [values, setValues] = useState({});
   const [debounceValues, setDebounceValues] = useState({});
   const [error, setError] = useState("");
@@ -19,11 +19,7 @@ export const useSignUp = () => {
     return () => clearTimeout(debounce);
   }, [debounceValues]);
 
-  useEffect(() => {
-    if (isError) {
-      setError("Sign up failed! Make sure your email & username are unique.");
-    }
-  }, [isError]);
+  
 
   const handleChange = (event) => {
     setDebounceValues((values) => ({
@@ -47,8 +43,18 @@ export const useSignUp = () => {
     }
   };
 
+  const signIn = (e) => {
+    e.preventDefault();
+    const { email, password } = values;
+    if (email && password) {
+      dispatch(signInUserAsync({ email, password }));
+    } else {
+      setError("All fields are mandatory");
+    }
+  };
+
   return {
     handleChange,
-    signUp,error,debounceValues,values
+    signUp,error,debounceValues,values,signIn,isError,setError
   };
 };

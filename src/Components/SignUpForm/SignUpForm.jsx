@@ -1,40 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSignUp } from "../../hooks";
+import { useUser } from "../../hooks";
 export const SignUpForm = () => {
-  
   const [showPassword, setShowPassword] = useState(false);
 
-  const {handleChange,signUp,debounceValues,error,values} = useSignUp()
-//   const dispatch = useDispatch();
-//   useEffect(() => {
-//     const debounce = setTimeout(() => {
-//       setValues(debounceValues);
-//     }, 1000);
+  const { handleChange, signUp, debounceValues, error,isError,setError } = useUser();
 
-//     return () => clearTimeout(debounce);
-//   }, [debounceValues]);
-
-//   const handleChange = (event) => {
-//     setDebounceValues((values) => ({
-//       ...values,
-//       [event.target.name]: event.target.value,
-//     }));
-//   };
-
-//   const signUp = (e) => {
-//     e.preventDefault();
-//     const { name, username, email, password, cpassword } = values;
-//     if (name && username && email) {
-//       if (password === cpassword) {
-//         // dispatch(signUpUserAsync({ name, username, email, password }));
-//       } else {
-//         setError("Password and Confirm Password not matched");
-//       }
-//     } else {
-//       setError("All fields are mandatory");
-//     }
-//   };
+  useEffect(() => {
+    if (isError) {
+      setError("Sign up failed! Make sure your email & username are unique.");
+    }
+  }, [isError]);
 
   return (
     <div className="flex   w-full items-center justify-center h-screen">
@@ -140,7 +116,7 @@ export const SignUpForm = () => {
           <div className="flex items-center justify-center p-8">
             <span>
               Already have an account?
-              <Link to="/signin" className="text-blue-500">
+              <Link to="/sign-in" className="text-blue-500">
                 Login!
               </Link>
             </span>
