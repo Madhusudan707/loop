@@ -27,7 +27,7 @@ export const Profile = () => {
   useEffect(()=>{
    
     if(bioRef.current.innerText){
-      console.log("hello")
+     
      let bio = bioRef.current.innerText
       dispatch(updateUserBioAsync({bio}))
     }
@@ -59,14 +59,15 @@ export const Profile = () => {
   }
 
  
- console.log(isShow)
+console.log(data)
   return (
     <div className="flex flex-col justify-center items-center h-96 w-full ">
       <div className="flex flex-col shadow-lg w-96 p-4 border" ref={wrapperRef}>
         <div className="flex items-center w-full ">
-          <i className="fas fa-user-circle fa-3x mr-4 cursor-pointer" onClick={openWidget}></i>
-          <span  className='p-2'>Name</span>
-          <span  className='p-2'>@Username</span>
+          {/* <i className="fas fa-user-circle fa-3x mr-4 cursor-pointer" onClick={openWidget}></i> */}
+          <img src={data.profileURL} onClick={openWidget} className='w-12 h-12' alt='user-image'/>
+          <span  className='p-2'>{data.name}</span>
+          <span  className='p-2'>@{data.username}</span>
         </div>
         <div className="flex mt-8 items-center justify-between p-2">
           <div className="flex flex-col items-center">
