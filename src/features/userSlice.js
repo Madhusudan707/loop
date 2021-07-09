@@ -46,11 +46,11 @@ export const signInUserAsync = createAsyncThunk(
   "user/login",
   async ({ email, password }) => {
     try {
-      const res = await axios.post(`${baseURL}/users/login`, { email, password });
+      const res = await axios.post(`/users/login`, { email, password });
       if (res.data.success) {
         localStorage.setItem(
           "login",
-          JSON.stringify({ token: res.data.user.token, isUserLoggedIn: true,_id:res.data.user._id })
+          JSON.stringify({ token: res.data.user.token, isUserLoggedIn: true})
         );
         axios.defaults.headers.common["Authorization"] = res.data.user.token;
       }
@@ -76,9 +76,7 @@ export const updateUserImageAsync = createAsyncThunk(
   "user/updateProfileImage",
   async ({ profileURL }) => {
     try {
-      let userData =JSON.parse(localStorage.getItem("login"))
-const _id= userData._id
-      const res = await axios.post(`/users/updateImage`, { profileURL, _id });
+      const res = await axios.post(`/users/updateImage`, { profileURL });
       return res.data;
     } catch (error) {
       console.error(error);
@@ -90,9 +88,7 @@ export const updateUserBioAsync = createAsyncThunk(
   "user/updateProfileBio",
   async ({ bio}) => {
     try {
-      let userData =JSON.parse(localStorage.getItem("login"))
-      const _id= userData._id
-      const res = await axios.post(`/users/updateBio`, { bio, _id});
+      const res = await axios.post(`/users/updateBio`, { bio});
       return res.data;
     } catch (error) {
       console.error(error);

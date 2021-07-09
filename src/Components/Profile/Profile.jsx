@@ -57,9 +57,6 @@ export const Profile = () => {
   const editBio = ()=>{
     setIsShow(false)
   }
-
- 
-console.log(data)
   return (
     <div className="flex flex-col justify-center items-center h-96 w-full ">
       <div className="flex flex-col shadow-lg w-96 p-4 border" ref={wrapperRef}>
@@ -86,7 +83,7 @@ console.log(data)
         </div>
         <div className='flex flex-col mt-8'>
             <span className='font-bold'>Bio</span>
-            <span ref={bioRef} onClick={editBio} contentEditable='true' suppressContentEditableWarning={true} className='border w-72 p-2 text-lg'>Hi there! I'm using Loop</span>
+            <span ref={bioRef} onClick={editBio} contentEditable={true} suppressContentEditableWarning={true} className='border w-72 p-2 text-lg'>Hi there! I'm using Loop</span>
         </div>
       </div>
     </div>

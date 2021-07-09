@@ -16,9 +16,9 @@ export const SignIn = () => {
         if (pathRef.current.from !== "/profile") {
           return pathRef.current.from;
         }
-        return "/profile";
+        return "/";
       }
-      return "/profile";
+      return "/";
     };
     return (
         <>
