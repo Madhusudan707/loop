@@ -105,6 +105,33 @@ export const logOutUserAsync = createAsyncThunk(
   }
 );
 
+export const followUserAsync = createAsyncThunk(
+  "user/follow",
+  async ({ userId }) => {
+    try {
+      const res = await axios.post("/users/network/follow", { userId });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
+export const unFollowUserAsync = createAsyncThunk(
+  "user/unfollow",
+  async ({ userId }) => {
+    try {
+      const res = await axios.post("/users/network/unfollow", { userId });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
+
+
+
 export const userSlice = createSlice({
     name:"user",
     initialState: {
@@ -220,6 +247,28 @@ export const userSlice = createSlice({
             }
           },
       
+    [followUserAsync.pending]: (state, action) => {
+      state.userLoading = true;
+    },
+
+    [followUserAsync.fulfilled]: (state, action) => {
+      state.userLoading = false;
+      if (action.payload.success) {
+        state.data.followingList.push(action.payload.followedUserId);
+      }
+    },
+    [unFollowUserAsync.pending]: (state, action) => {
+      state.userLoading = true;
+    },
+
+    [unFollowUserAsync.fulfilled]: (state, action) => {
+      state.userLoading = false;
+      if (action.payload.success) {
+        state.data.followingList = state.data.followingList.filter(
+          (id) => id !== action.payload.unFollowedUserId
+        );
+      }
+    }
         
     }
 })

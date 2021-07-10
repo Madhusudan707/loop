@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux";
 import { getLoginStatus} from "../features/userSlice";
-import { CreatePost,Feed } from "../Components";
+import { CreatePost,Feed,Search } from "../Components";
 export const Home = () => {
     const isUserLoggedIn = useSelector(getLoginStatus);
     return (
@@ -11,6 +11,7 @@ export const Home = () => {
         <div>
             <CreatePost/>
             <Feed/>
+            <Search/>
         </div>
         :
            <div className='flex flex-col h-screen justify-center items-center'>

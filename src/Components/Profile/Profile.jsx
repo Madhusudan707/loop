@@ -1,16 +1,46 @@
 
 import { useSelector, useDispatch } from "react-redux";
-import { getUserData, updateUserImageAsync,updateUserBioAsync } from "../../features/userSlice";
+import { getUserData, updateUserImageAsync,updateUserBioAsync,followUserAsync,unFollowUserAsync } from "../../features/userSlice";
 import { useEffect, useRef, useState } from "react";
 import { useOutSideAlert } from "../../hooks";
-export const Profile = () => {
-  const data = useSelector(getUserData);
+import { useNavigate, useParams } from "react-router";
+import axios from 'axios'
+export const Profile = ({isCurrentUser}) => {
+  const { username } = useParams();
+  // const data = useSelector(getUserData);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
   const [profileURL, setProfileURL] = useState(data.profileURL);
+  const currentUserData = useSelector(getUserData);
   const dispatch = useDispatch();
   const mountRef = useRef({ isMounted: false });
   const bioRef = useRef();
   const wrapperRef = useRef(null);
   const { isShow, setIsShow } = useOutSideAlert(wrapperRef);
+  const currentUser = isCurrentUser || data?._id === currentUserData._id;
+
+  useEffect(() => {
+    mountRef.current.isMounted = true;
+    (async () => {
+      if (!currentUser) {
+        try {
+          mountRef.current.isMounted && setLoading(true);
+          const res = await axios.get(`/users/${username}`);
+          if (res.data?.success) {
+            mountRef.current.isMounted && setData(res.data.user);
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          mountRef.current.isMounted && setLoading(false);
+        }
+      } else {
+        mountRef.current.isMounted && setData(currentUserData);
+      }
+    })();
+    return () => (mountRef.current.isMounted = false); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentUser, currentUserData, username]);
+
 
   useEffect(() => {
     mountRef.current.isMounted = true;
@@ -65,6 +95,11 @@ export const Profile = () => {
           <img src={data.profileURL} onClick={openWidget} className='w-12 h-12' alt='user-image'/>
           <span  className='p-2'>{data.name}</span>
           <span  className='p-2'>@{data.username}</span>
+          <button className='btn btn-primary' onClick={()=>{
+            data.followersList.includes(currentUserData._id)?dispatch(unFollowUserAsync({ userId: data._id })):dispatch(followUserAsync({ userId: data._id }));
+          }}>{data?.followersList?.includes(currentUserData._id)
+                ? "Unfollow"
+                : "Follow"}</button>
         </div>
         <div className="flex mt-8 items-center justify-between p-2">
           <div className="flex flex-col items-center">

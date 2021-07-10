@@ -7,3 +7,4 @@ export { Sidenav } from "./Sidenav/Sidenav";
 export { CreatePost } from "./Post/CreatePost";
 export {Feed} from "./Post/Feed"
 export {Post} from "./Post/Post.jsx"
+export {Search} from "./Search/Search.jsx"
