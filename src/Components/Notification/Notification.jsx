@@ -19,7 +19,7 @@ export const Notification = () => {
 
   useEffect(() => {
     dispatch(getAllNotificationsAsync());
-    const socket = io("wss://localhost:3003");
+    const socket = io("wss://https://loop-backend.madhusudandas.repl.co");
     socket.on("connect", function () {
       console.log("Connected via websocket");
     });
