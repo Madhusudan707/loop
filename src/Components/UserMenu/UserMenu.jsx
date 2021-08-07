@@ -10,7 +10,7 @@ export const UserMenu = ({showMenu=false,setShowMenu}) => {
         dispatch(logOutUserAsync())
     }
     return (
-        <div className={` ${showMenu?"":"hide"} flex flex-col absolute right-12 border p-4 bg-white`}>
+        <div className={` ${showMenu?"":"hide"} flex flex-col absolute right-12 border p-4 bg-white z-10`}>
             <ul className='text-2xl p-4 leading-loose'>
             <li className='hover:text-blue-500'><Link to="/">Home</Link></li>
                 <li className='hover:text-blue-500'><Link to="/notifications">Notifications</Link></li>

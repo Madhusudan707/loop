@@ -21,7 +21,7 @@ export const SignInForm = () => {
             <div className="flex">
               <div className="flex flex-col w-full p-4">
                 <label>
-                  Email<sup className="text-red-500"> *</sup>
+                  Email<sup className="text-red-500" > *</sup>
                 </label>
                 <input
                   type="email"
@@ -29,7 +29,8 @@ export const SignInForm = () => {
                   className="border  p-2"
                   required
                   onChange={handleChange}
-                  value={debounceValues.email || ""}
+                  value={debounceValues.email || "loop@gmail.com"}
+                
                 />
               </div>
             </div>
@@ -45,7 +46,8 @@ export const SignInForm = () => {
                   className="border  p-2"
                   required
                   onChange={handleChange}
-                  value={debounceValues.password || ""}
+                  value={debounceValues.password || "123456"}
+                  
                 />
                 
               </div>

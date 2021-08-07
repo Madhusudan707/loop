@@ -45,7 +45,7 @@ export const useUser = () => {
 
   const signIn = (e) => {
     e.preventDefault();
-    const { email, password } = values;
+    const { email="loop@gmail.com", password="123456" } = values;
     if (email && password) {
       dispatch(signInUserAsync({ email, password }));
     } else {
